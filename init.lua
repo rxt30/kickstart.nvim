@@ -1,5 +1,4 @@
 --[[
-
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -640,6 +639,10 @@ require('lazy').setup({
         html = {},
         tailwindcss = {},
         angularls = {},
+        -- YAML
+        yamlls = {},
+        -- JSON
+        jsonls = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -726,6 +729,8 @@ require('lazy').setup({
         markdown = { 'mdformat' },
         typescript = { 'prettier' },
         javascript = { 'prettier' },
+        yaml = { 'prettier' },
+        json = { ' prettier' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -846,6 +851,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = 'copilot' },
         },
       }
     end,
@@ -961,6 +967,15 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     config = function()
       require('lualine').setup {}
+    end
+  },
+  {
+    's1n7ax/nvim-window-picker',
+    name = 'window-picker',
+    event = 'VeryLazy',
+    version = '2.*',
+    config = function()
+      require('window-picker').setup()
     end,
   },
 
@@ -979,6 +994,7 @@ require('lazy').setup({
   require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.unit_test',
+  require 'kickstart.plugins.copilot',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
