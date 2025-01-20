@@ -966,8 +966,10 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     config = function()
-      require('lualine').setup {}
-    end
+      require('lualine').setup {
+        sections = { lualine_c = { { 'filename', path = 3 } } },
+      }
+    end,
   },
   {
     's1n7ax/nvim-window-picker',
