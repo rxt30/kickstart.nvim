@@ -199,6 +199,9 @@ vim.keymap.set({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { desc = 'Up',
 -- Easier create tabs
 vim.keymap.set('n', 'tt', ':tabnew<CR>', { desc = 'Create new tab' })
 
+-- Jump to definition in split
+vim.keymap.set({ 'n' }, 'gv', ':vsplit<CR>gd', { desc = 'Jump to definition in split' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -1000,6 +1003,7 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.unit_test',
   require 'kickstart.plugins.copilot',
+  require 'kickstart.plugins.neorg',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
