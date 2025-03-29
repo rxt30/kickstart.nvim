@@ -88,6 +88,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.opt.conceallevel = 2
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -197,7 +198,8 @@ vim.keymap.set({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { desc = 'Up', ex
 vim.keymap.set({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { desc = 'Up', expr = true, silent = true })
 
 -- Easier create tabs
-vim.keymap.set('n', 'tt', ':tabnew<CR>', { desc = 'Create new tab' })
+vim.keymap.set('n', 'tT', ':tabnew<CR>', { desc = 'Create new tab', silent = true })
+vim.keymap.set('n', 'tt', ':tab split<CR>', { desc = 'Create new tab', silent = true })
 
 -- Jump to definition in split
 vim.keymap.set({ 'n' }, 'gv', ':vsplit<CR>gd', { desc = 'Jump to definition in split' })
@@ -213,6 +215,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.highlight.on_yank()
+  end,
+})
+
+-- Disable swapfile for norg files
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'norg',
+  callback = function()
+    vim.opt_local.swapfile = false
   end,
 })
 
@@ -555,6 +565,7 @@ require('lazy').setup({
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+          map('ga', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
@@ -645,10 +656,15 @@ require('lazy').setup({
         html = {},
         tailwindcss = {},
         angularls = {},
+        cssls = {},
         -- YAML
         yamlls = {},
         -- JSON
         jsonls = {},
+        -- XML
+        lemminx = {},
+        pylsp = {},
+        pyright = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -732,11 +748,13 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         tex = { 'latexindent' },
-        markdown = { 'mdformat' },
+        markdown = { 'prettier' },
         typescript = { 'prettier' },
+        typescriptreact = { 'prettier' },
         javascript = { 'prettier' },
         yaml = { 'prettier' },
         json = { ' prettier' },
+        xml = { 'xmlformatter' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -986,6 +1004,9 @@ require('lazy').setup({
       require('window-picker').setup()
     end,
   },
+  {
+    'hiphish/rainbow-delimiters.nvim',
+  },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -996,7 +1017,7 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
@@ -1004,7 +1025,8 @@ require('lazy').setup({
   require 'kickstart.plugins.unit_test',
   require 'kickstart.plugins.copilot',
   require 'kickstart.plugins.neorg',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  -- require 'kickstart.plugins.obsidian',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

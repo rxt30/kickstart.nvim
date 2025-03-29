@@ -37,6 +37,14 @@ return {
         desc = 'Toggle test window',
         silent = true,
       },
+      {
+        'ts',
+        function()
+          require('neotest').run.run()
+        end,
+        desc = 'Run nearest test',
+        silent = true,
+      },
     },
   },
   {
