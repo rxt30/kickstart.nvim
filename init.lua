@@ -896,6 +896,16 @@ require('lazy').setup({
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
+      vim.opt.laststatus = 3
+    end,
+    config = function()
+      require('catppuccin').setup {
+        custom_highlights = function(colors)
+          return {
+            WinSeparator = { fg = colors.green },
+          }
+        end,
+      }
     end,
   },
 
@@ -981,12 +991,12 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
-  {
-    'ahmedkhalf/project.nvim',
-    config = function()
-      require('project_nvim').setup {}
-    end,
-  },
+  -- {
+  --   'ahmedkhalf/project.nvim',
+  --   config = function()
+  --     require('project_nvim').setup {}
+  --   end,
+  -- },
   {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -1006,6 +1016,9 @@ require('lazy').setup({
   },
   {
     'hiphish/rainbow-delimiters.nvim',
+  },
+  {
+    'sindrets/diffview.nvim',
   },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -1027,6 +1040,7 @@ require('lazy').setup({
   require 'kickstart.plugins.neorg',
   -- require 'kickstart.plugins.obsidian',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  -- require 'kickstart.plugins.gitlab',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
